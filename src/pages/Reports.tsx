@@ -253,7 +253,7 @@ const Reports = () => {
                     <div className="bg-green-50 p-4 rounded-md text-center">
                       <p className="text-sm text-green-700 mb-1">High Performers</p>
                       <p className="text-2xl font-bold text-green-700">12</p>
-                      <p className="text-xs mt-1 text-green-600">Score > 4.5</p>
+                      <p className="text-xs mt-1 text-green-600">Score  4.5</p>
                     </div>
                     
                     <div className="bg-yellow-50 p-4 rounded-md text-center">
@@ -265,7 +265,7 @@ const Reports = () => {
                     <div className="bg-red-50 p-4 rounded-md text-center">
                       <p className="text-sm text-red-700 mb-1">Needs Improvement</p>
                       <p className="text-2xl font-bold text-red-700">4</p>
-                      <p className="text-xs mt-1 text-red-600">Score < 3.5</p>
+                      <p className="text-xs mt-1 text-red-600">Score  3.5</p>
                     </div>
                   </div>
                   

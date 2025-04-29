@@ -334,7 +334,7 @@ const AccessResults = () => {
                     <h4 className="font-medium mb-3">By Tenure</h4>
                     <div className="space-y-2">
                       <div className="flex justify-between">
-                        <span className="text-sm">< 1 year</span>
+                        <span className="text-sm"> 1 year</span>
                         <span className="text-sm font-medium">35 responses</span>
                       </div>
                       <div className="flex justify-between">
@@ -350,7 +350,7 @@ const AccessResults = () => {
                         <span className="text-sm font-medium">30 responses</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-sm">> 10 years</span>
+                        <span className="text-sm"> 10 years</span>
                         <span className="text-sm font-medium">15 responses</span>
                       </div>
                     </div>

@@ -11,9 +11,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ResponsiveBar } from "@/components/ui/chart";
-import { ResponsiveContainer } from "recharts";
-import { BarChart, Download, LineChart, PieChart } from "lucide-react";
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid } from "recharts";
+import { BarChart as BarChartIcon, Download, LineChart as LineChartIcon, PieChart as PieChartIcon } from "lucide-react";
 
 const AccessResults = () => {
   const [currentStage] = useState(6);
@@ -141,59 +140,25 @@ const AccessResults = () => {
       <Card className="mb-8">
         <CardHeader>
           <CardTitle className="flex items-center">
-            <BarChart className="mr-2 h-5 w-5" />
+            <BarChartIcon className="mr-2 h-5 w-5" />
             Engagement by Category
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
-              {/* Chart content */}
-              <ResponsiveBar
+              <BarChart
                 data={engagementData}
-                keys={["current", "previous"]}
-                indexBy="name"
-                margin={{ top: 50, right: 50, bottom: 50, left: 60 }}
-                padding={0.3}
-                colors={["#4f46e5", "#9f9faa"]}
-                borderColor={{ from: "color", modifiers: [["darker", 1.6]] }}
-                axisTop={null}
-                axisRight={null}
-                axisBottom={{
-                  tickSize: 5,
-                  tickPadding: 5,
-                  tickRotation: 0,
-                  legend: "Category",
-                  legendPosition: "middle",
-                  legendOffset: 40,
-                }}
-                axisLeft={{
-                  tickSize: 5,
-                  tickPadding: 5,
-                  tickRotation: 0,
-                  legend: "Score",
-                  legendPosition: "middle",
-                  legendOffset: -50,
-                }}
-                labelSkipWidth={12}
-                labelSkipHeight={12}
-                legends={[
-                  {
-                    dataFrom: "keys",
-                    anchor: "top-right",
-                    direction: "column",
-                    justify: false,
-                    translateX: 120,
-                    translateY: 0,
-                    itemsSpacing: 2,
-                    itemWidth: 100,
-                    itemHeight: 20,
-                    itemDirection: "left-to-right",
-                    itemOpacity: 0.85,
-                    symbolSize: 20,
-                  },
-                ]}
-              />
+                margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="current" name="Current" fill="#4f46e5" />
+                <Bar dataKey="previous" name="Previous" fill="#9f9faa" />
+              </BarChart>
             </ResponsiveContainer>
           </div>
         </CardContent>
@@ -208,7 +173,7 @@ const AccessResults = () => {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center">
-                <PieChart className="mr-2 h-5 w-5" />
+                <PieChartIcon className="mr-2 h-5 w-5" />
                 Results by Department
               </CardTitle>
             </CardHeader>
@@ -249,7 +214,7 @@ const AccessResults = () => {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center">
-                <LineChart className="mr-2 h-5 w-5" />
+                <LineChartIcon className="mr-2 h-5 w-5" />
                 Score Trends Over Time
               </CardTitle>
             </CardHeader>

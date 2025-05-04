@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { Button } from "@/components/ui/button";
@@ -7,9 +6,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { BarChart, FileText, Users, Book, Calendar, Mail, Phone, ArrowUpRight } from "lucide-react";
-import { ResponsiveContainer } from "recharts";
-import { ResponsiveBar } from "@/components/ui/chart";
+import { BarChart as BarChartIcon, FileText, Users, Book, Calendar, Mail, Phone, ArrowUpRight } from "lucide-react";
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid } from "recharts";
 
 const ManagerProfile = () => {
   const [currentStage] = useState(7);
@@ -204,38 +202,17 @@ const ManagerProfile = () => {
           <CardContent>
             <div className="h-72">
               <ResponsiveContainer width="100%" height="100%">
-                <ResponsiveBar
+                <BarChart
                   data={scoreData}
-                  keys={["value"]}
-                  indexBy="category"
-                  margin={{ top: 50, right: 50, bottom: 50, left: 50 }}
-                  padding={0.3}
-                  valueScale={{ type: "linear" }}
-                  indexScale={{ type: "band", round: true }}
-                  colors={["#4f46e5"]}
-                  axisBottom={{
-                    tickSize: 5,
-                    tickPadding: 5,
-                    tickRotation: 0,
-                    legend: "Category",
-                    legendPosition: "middle",
-                    legendOffset: 40
-                  }}
-                  axisLeft={{
-                    tickSize: 5,
-                    tickPadding: 5,
-                    tickRotation: 0,
-                    legend: "Score",
-                    legendPosition: "middle",
-                    legendOffset: -40
-                  }}
-                  labelSkipWidth={12}
-                  labelSkipHeight={12}
-                  labelTextColor={{ from: "color", modifiers: [["darker", 1.6]] }}
-                  animate={true}
-                  motionStiffness={90}
-                  motionDamping={15}
-                />
+                  margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="category" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Bar dataKey="value" name="Score" fill="#4f46e5" />
+                </BarChart>
               </ResponsiveContainer>
             </div>
             
@@ -407,7 +384,7 @@ const ManagerProfile = () => {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center">
-                <BarChart className="mr-2 h-5 w-5" />
+                <BarChartIcon className="mr-2 h-5 w-5" />
                 Score Trends
               </CardTitle>
             </CardHeader>

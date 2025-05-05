@@ -25,7 +25,8 @@ import {
   Users, 
   BellRing, 
   Kanban,
-  HelpCircle
+  HelpCircle,
+  LayoutDashboard
 } from "lucide-react";
 
 interface AppSidebarProps {
@@ -35,6 +36,10 @@ interface AppSidebarProps {
 export const AppSidebar: React.FC<AppSidebarProps> = ({ currentStage }) => {
   const navigate = useNavigate();
   const location = useLocation();
+  
+  const managementItems = [
+    { title: "Company Surveys", path: "/company-surveys", icon: LayoutDashboard, stage: 1 },
+  ];
   
   const assessmentItems = [
     { title: "Register Company", path: "/", icon: ClipboardList, stage: 1 },
@@ -66,6 +71,26 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({ currentStage }) => {
       </SidebarHeader>
       
       <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupLabel>Management</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {managementItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton
+                    isActive={isActive(item.path)}
+                    tooltip={item.title}
+                    onClick={() => navigate(item.path)}
+                  >
+                    <item.icon className="text-survey-lightText" />
+                    <span>{item.title}</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        
         <SidebarGroup>
           <SidebarGroupLabel>Assessment</SidebarGroupLabel>
           <SidebarGroupContent>

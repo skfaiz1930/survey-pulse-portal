@@ -20,10 +20,21 @@ import {
   TableHeader, 
   TableRow 
 } from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
 
 const Reports = () => {
   const [currentStage] = useState(7);
   const [activeTab, setActiveTab] = useState("basic");
+  const [selectedSurvey, setSelectedSurvey] = useState("1");
+
+  // Mock survey data for the selector
+  const availableSurveys = [
+    { id: "1", name: "Employee Engagement 2025" },
+    { id: "2", name: "Management Effectiveness" },
+    { id: "3", name: "Work Environment Assessment" },
+    { id: "4", name: "Remote Work Satisfaction" },
+    { id: "5", name: "New Hire Onboarding Feedback" },
+  ];
 
   // Custom reports list
   const customReports = [
@@ -36,13 +47,32 @@ const Reports = () => {
   
   return (
     <MainLayout currentStage={currentStage}>
-      <div className="mb-8">
-        <h2 className="text-2xl font-bold text-survey-darkText">
-          Survey Reports
-        </h2>
-        <p className="text-survey-lightText mt-2">
-          View detailed reports and insights from your survey data
-        </p>
+      <div className="mb-6 flex flex-col md:flex-row md:items-center md:justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-survey-darkText">
+            Survey Reports
+          </h2>
+          <p className="text-survey-lightText mt-2">
+            View detailed reports and insights from your survey data
+          </p>
+        </div>
+        <div className="mt-4 md:mt-0 min-w-[240px]">
+          <Select value={selectedSurvey} onValueChange={setSelectedSurvey}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select Survey" />
+            </SelectTrigger>
+            <SelectContent>
+              {availableSurveys.map(survey => (
+                <SelectItem key={survey.id} value={survey.id}>
+                  {survey.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <div className="mt-2 flex justify-end">
+            <Badge variant="outline" className="text-xs">Survey ID: {selectedSurvey}</Badge>
+          </div>
+        </div>
       </div>
 
       <Tabs defaultValue="basic" value={activeTab} onValueChange={setActiveTab}>
@@ -457,7 +487,7 @@ const Reports = () => {
             <CardHeader>
               <CardTitle className="flex items-center">
                 <BarChart className="mr-2 h-5 w-5" />
-                Custom Reports
+                Custom Reports for {availableSurveys.find(s => s.id === selectedSurvey)?.name || "Selected Survey"}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -489,7 +519,7 @@ const Reports = () => {
                         </span>
                       </TableCell>
                       <TableCell className="text-right">
-                        <Button size="sm">Generate</Button>
+                        <Button size="sm" onClick={() => window.location.href = `/custom-reports?survey=${selectedSurvey}&reportId=${report.id}`}>Generate</Button>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -497,7 +527,7 @@ const Reports = () => {
               </Table>
               
               <div className="mt-6 flex justify-center">
-                <Button>Create New Custom Report</Button>
+                <Button onClick={() => window.location.href = `/custom-reports?survey=${selectedSurvey}`}>Create New Custom Report</Button>
               </div>
             </CardContent>
           </Card>

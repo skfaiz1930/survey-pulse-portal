@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -27,6 +27,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
@@ -47,8 +48,10 @@ import {
   Play,
   Plus,
   Check,
+  ChartPie
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useSearchParams, useNavigate } from "react-router-dom";
 
 // Report interface
 interface Report {
@@ -60,16 +63,39 @@ interface Report {
   createdAt: string;
   lastRun: string | null;
   status: "saved" | "generated" | "running";
+  surveyId?: string;
+}
+
+// Survey interface
+interface Survey {
+  id: string;
+  name: string;
+  description?: string;
+  status?: string;
 }
 
 const CustomReports = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [currentStage] = useState(7);
   const [activeTab, setActiveTab] = useState("available");
   const [searchQuery, setSearchQuery] = useState("");
   const [showNewReportDialog, setShowNewReportDialog] = useState(false);
   const [selectedReportType, setSelectedReportType] = useState<string | null>(null);
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+  const [selectedSurvey, setSelectedSurvey] = useState<string>(
+    searchParams.get("survey") || "all"
+  );
+  
+  // Sample survey data
+  const availableSurveys: Survey[] = [
+    { id: "1", name: "Employee Engagement 2025", status: "active" },
+    { id: "2", name: "Management Effectiveness", status: "completed" },
+    { id: "3", name: "Work Environment Assessment", status: "draft" },
+    { id: "4", name: "Remote Work Satisfaction", status: "scheduled" },
+    { id: "5", name: "New Hire Onboarding Feedback", status: "completed" },
+  ];
   
   // Sample reports data
   const [reports, setReports] = useState<Report[]>([
@@ -79,13 +105,14 @@ const CustomReports = () => {
       description: "Compare survey results across different departments",
       type: "comparison",
       parameters: { 
-        surveyId: "survey1",
+        surveyId: "1",
         departments: ["Engineering", "Marketing", "Sales"],
         metrics: ["overall_score", "participation_rate"]
       },
       createdAt: "2025-03-15",
       lastRun: "2025-05-01",
-      status: "generated"
+      status: "generated",
+      surveyId: "1"
     },
     {
       id: "r2",
@@ -93,12 +120,13 @@ const CustomReports = () => {
       description: "Detailed view of all managers' performance with rankings",
       type: "performance",
       parameters: {
-        surveyId: "survey1",
+        surveyId: "1",
         metrics: ["overall_score", "communication", "recognition"]
       },
       createdAt: "2025-04-02",
       lastRun: "2025-05-01",
-      status: "generated"
+      status: "generated",
+      surveyId: "1"
     },
     {
       id: "r3",
@@ -106,12 +134,13 @@ const CustomReports = () => {
       description: "Track changes in scores over the last four quarters",
       type: "trend",
       parameters: {
-        surveys: ["survey1", "survey2", "survey3", "survey4"],
+        surveys: ["1", "2", "3", "4"],
         metrics: ["overall_score"]
       },
       createdAt: "2025-04-10",
       lastRun: null,
-      status: "saved"
+      status: "saved",
+      surveyId: "2"
     },
     {
       id: "r4",
@@ -119,12 +148,13 @@ const CustomReports = () => {
       description: "Results broken down by age, tenure, and gender",
       type: "demographic",
       parameters: {
-        surveyId: "survey1",
+        surveyId: "3",
         demographics: ["age", "tenure", "gender"]
       },
       createdAt: "2025-04-15",
       lastRun: null,
-      status: "saved"
+      status: "saved",
+      surveyId: "3"
     },
     {
       id: "r5",
@@ -132,12 +162,13 @@ const CustomReports = () => {
       description: "Key factors affecting employee engagement",
       type: "factors",
       parameters: {
-        surveyId: "survey1",
+        surveyId: "5",
         factorCategories: ["leadership", "communication", "development"]
       },
       createdAt: "2025-04-22",
       lastRun: "2025-05-02",
-      status: "generated"
+      status: "generated",
+      surveyId: "5"
     }
   ]);
   
@@ -179,6 +210,32 @@ const CustomReports = () => {
     { id: "mgr_level1", label: "Manager Level 1" },
     { id: "mgr_level2", label: "Manager Level 2" }
   ];
+
+  // Effect to handle query params
+  useEffect(() => {
+    const reportId = searchParams.get("reportId");
+    const surveyId = searchParams.get("survey");
+    
+    if (surveyId) {
+      setSelectedSurvey(surveyId);
+    }
+    
+    if (reportId) {
+      const report = reports.find(r => r.id === reportId);
+      if (report) {
+        handleGenerateReport(reportId);
+      }
+    }
+  }, [searchParams]);
+  
+  // Filter reports based on selected survey and search query
+  const filteredReports = reports.filter(report => {
+    const matchesSurvey = selectedSurvey === "all" || report.surveyId === selectedSurvey;
+    const matchesSearch = report.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                          report.description.toLowerCase().includes(searchQuery.toLowerCase());
+    
+    return matchesSurvey && matchesSearch;
+  });
   
   const handleGenerateReport = (reportId: string) => {
     const reportIndex = reports.findIndex(r => r.id === reportId);
@@ -210,6 +267,14 @@ const CustomReports = () => {
   
   const handleCreateReport = () => {
     if (!selectedReportType) return;
+    if (selectedSurvey === "all") {
+      toast({
+        title: "Survey Required",
+        description: "Please select a specific survey to create a report.",
+        variant: "destructive"
+      });
+      return;
+    }
     
     const template = reportTemplates.find(t => t.id === selectedReportType);
     if (!template) return;
@@ -225,7 +290,8 @@ const CustomReports = () => {
       },
       createdAt: new Date().toISOString().split("T")[0],
       lastRun: null,
-      status: "saved"
+      status: "saved",
+      surveyId: selectedSurvey
     };
     
     setReports([...reports, newReport]);
@@ -235,7 +301,7 @@ const CustomReports = () => {
     
     toast({
       title: "Report Created",
-      description: `New report "${newReport.name}" has been created.`
+      description: `New report "${newReport.name}" has been created for survey "${availableSurveys.find(s => s.id === selectedSurvey)?.name}".`
     });
   };
   
@@ -277,7 +343,7 @@ const CustomReports = () => {
   
   return (
     <MainLayout currentStage={currentStage}>
-      <div className="mb-8 flex flex-col md:flex-row md:items-center md:justify-between">
+      <div className="mb-6 flex flex-col md:flex-row md:items-center md:justify-between">
         <div>
           <h2 className="text-2xl font-bold text-survey-darkText">
             Custom Reports
@@ -286,7 +352,21 @@ const CustomReports = () => {
             Generate and view custom reports based on survey data
           </p>
         </div>
-        <div className="mt-4 md:mt-0">
+        <div className="mt-4 md:mt-0 flex flex-wrap gap-2">
+          <Select value={selectedSurvey} onValueChange={setSelectedSurvey}>
+            <SelectTrigger className="w-[220px]">
+              <SelectValue placeholder="Filter by Survey" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Surveys</SelectItem>
+              {availableSurveys.map(survey => (
+                <SelectItem key={survey.id} value={survey.id}>
+                  {survey.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          
           <Dialog open={showNewReportDialog} onOpenChange={setShowNewReportDialog}>
             <DialogTrigger asChild>
               <Button>
@@ -303,6 +383,24 @@ const CustomReports = () => {
               </DialogHeader>
               
               <div className="mt-4 space-y-4">
+                <div>
+                  <label className="text-sm font-medium mb-2 block">Survey</label>
+                  <Select value={selectedSurvey} onValueChange={setSelectedSurvey}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select Survey" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {availableSurveys.map(survey => (
+                        <SelectItem key={survey.id} value={survey.id}>
+                          {survey.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  {selectedSurvey === "all" && (
+                    <p className="text-xs text-red-500 mt-1">Please select a specific survey</p>
+                  )}
+                </div>
                 <div>
                   <h4 className="text-sm font-medium mb-2">Report Template</h4>
                   <div className="grid grid-cols-2 gap-3">
@@ -358,7 +456,7 @@ const CustomReports = () => {
                 </Button>
                 <Button 
                   onClick={handleCreateReport}
-                  disabled={!selectedReportType}
+                  disabled={!selectedReportType || selectedSurvey === "all"}
                 >
                   Create Report
                 </Button>
@@ -408,12 +506,8 @@ const CustomReports = () => {
         
         <TabsContent value="available">
           <div className="space-y-6">
-            {reports
-              .filter(report => 
-                report.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                report.description.toLowerCase().includes(searchQuery.toLowerCase())
-              )
-              .map(report => (
+            {filteredReports.length > 0 ? (
+              filteredReports.map(report => (
                 <Card key={report.id}>
                   <CardHeader className="pb-3">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
@@ -440,6 +534,9 @@ const CustomReports = () => {
                       )}
                       <div className="mr-6 mb-2">
                         <span className="font-medium">Type:</span> {report.type.charAt(0).toUpperCase() + report.type.slice(1)}
+                      </div>
+                      <div className="mr-6 mb-2">
+                        <span className="font-medium">Survey:</span> {availableSurveys.find(s => s.id === report.surveyId)?.name || "Multiple Surveys"}
                       </div>
                     </div>
                   </CardContent>
@@ -478,18 +575,24 @@ const CustomReports = () => {
                     )}
                   </CardFooter>
                 </Card>
-              ))}
-
-            {reports.filter(report => 
-              report.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-              report.description.toLowerCase().includes(searchQuery.toLowerCase())
-            ).length === 0 && (
+              ))
+            ) : (
               <div className="text-center py-12">
                 <FileText className="mx-auto h-12 w-12 text-gray-300" />
                 <h3 className="mt-4 text-lg font-medium text-survey-darkText">No reports found</h3>
                 <p className="mt-2 text-survey-lightText">
-                  {searchQuery ? 'Try adjusting your search query' : 'Create a new report to get started'}
+                  {searchQuery ? 'Try adjusting your search query' : (
+                    selectedSurvey !== "all" 
+                      ? `No reports available for "${availableSurveys.find(s => s.id === selectedSurvey)?.name}". Create a new report?`
+                      : 'Create a new report to get started'
+                  )}
                 </p>
+                {selectedSurvey !== "all" && (
+                  <Button className="mt-4" onClick={() => setShowNewReportDialog(true)}>
+                    <Plus className="mr-2 h-4 w-4" />
+                    Create Report for this Survey
+                  </Button>
+                )}
               </div>
             )}
           </div>
@@ -497,52 +600,54 @@ const CustomReports = () => {
         
         <TabsContent value="generated">
           <div className="space-y-6">
-            {reports
-              .filter(report => report.status === "generated")
-              .length > 0 ? (
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Report Name</TableHead>
-                      <TableHead>Type</TableHead>
-                      <TableHead>Generated On</TableHead>
-                      <TableHead className="text-right">Actions</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {reports
-                      .filter(report => report.status === "generated")
-                      .map(report => (
-                        <TableRow key={report.id}>
-                          <TableCell className="font-medium">{report.name}</TableCell>
-                          <TableCell>{report.type}</TableCell>
-                          <TableCell>{report.lastRun}</TableCell>
-                          <TableCell className="text-right">
-                            <div className="flex justify-end space-x-2">
-                              <Button variant="outline" size="sm">
-                                <FileText className="mr-2 h-4 w-4" />
-                                View
-                              </Button>
-                              <Button variant="outline" size="sm">
-                                <Download className="h-4 w-4" />
-                              </Button>
-                            </div>
-                          </TableCell>
-                        </TableRow>
-                      ))
-                    }
-                  </TableBody>
-                </Table>
-              ) : (
-                <div className="text-center py-12">
-                  <FileText className="mx-auto h-12 w-12 text-gray-300" />
-                  <h3 className="mt-4 text-lg font-medium text-survey-darkText">No generated reports</h3>
-                  <p className="mt-2 text-survey-lightText">
-                    Generate a report to see it here
-                  </p>
-                </div>
-              )
-            }
+            {filteredReports.filter(report => report.status === "generated").length > 0 ? (
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Report Name</TableHead>
+                    <TableHead>Survey</TableHead>
+                    <TableHead>Type</TableHead>
+                    <TableHead>Generated On</TableHead>
+                    <TableHead className="text-right">Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {filteredReports
+                    .filter(report => report.status === "generated")
+                    .map(report => (
+                      <TableRow key={report.id}>
+                        <TableCell className="font-medium">{report.name}</TableCell>
+                        <TableCell>{availableSurveys.find(s => s.id === report.surveyId)?.name || "Multiple"}</TableCell>
+                        <TableCell>{report.type}</TableCell>
+                        <TableCell>{report.lastRun}</TableCell>
+                        <TableCell className="text-right">
+                          <div className="flex justify-end space-x-2">
+                            <Button variant="outline" size="sm">
+                              <FileText className="mr-2 h-4 w-4" />
+                              View
+                            </Button>
+                            <Button variant="outline" size="sm">
+                              <Download className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  }
+                </TableBody>
+              </Table>
+            ) : (
+              <div className="text-center py-12">
+                <FileText className="mx-auto h-12 w-12 text-gray-300" />
+                <h3 className="mt-4 text-lg font-medium text-survey-darkText">No generated reports</h3>
+                <p className="mt-2 text-survey-lightText">
+                  {selectedSurvey !== "all" 
+                    ? `Generate a report for "${availableSurveys.find(s => s.id === selectedSurvey)?.name}" to see it here`
+                    : 'Generate a report to see it here'
+                  }
+                </p>
+              </div>
+            )}
           </div>
         </TabsContent>
         

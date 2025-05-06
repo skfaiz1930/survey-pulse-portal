@@ -23,6 +23,7 @@ import QuestionTemplates from "./pages/QuestionTemplates";
 import CompanySurveys from "./pages/CompanySurveys";
 import CreateSurvey from "./pages/CreateSurvey";
 import SurveyDetails from "./pages/SurveyDetails";
+import SurveyBuilder from "./pages/SurveyBuilder";
 
 const queryClient = new QueryClient();
 
@@ -78,10 +79,12 @@ const App = () => (
           <Route path="/knowledge-hub" element={<PrivateRoute><KnowledgeHub /></PrivateRoute>} />
           <Route path="/manager/:id" element={<PrivateRoute><ManagerProfile /></PrivateRoute>} />
           
-          {/* New survey management routes */}
+          {/* Survey management routes */}
           <Route path="/company-surveys" element={<PrivateRoute><CompanySurveys /></PrivateRoute>} />
           <Route path="/create-survey" element={<PrivateRoute><CreateSurvey /></PrivateRoute>} />
           <Route path="/survey-details/:id" element={<PrivateRoute><SurveyDetails /></PrivateRoute>} />
+          <Route path="/survey-builder" element={<PrivateRoute><SurveyBuilder /></PrivateRoute>} />
+          <Route path="/survey-builder/:id" element={<PrivateRoute><SurveyBuilder /></PrivateRoute>} />
           
           {/* Super admin routes */}
           <Route path="/super-admin-dashboard" element={<AdminRoute><SuperAdminDashboard /></AdminRoute>} />

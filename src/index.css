@@ -5,82 +5,85 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Fluent 2 Light Theme Colors */
+    --background: 250 250 250; /* fluent-grey-4 */
+    --foreground: 36 36 36; /* fluent-grey-62 */
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 255 255 255; /* fluent-neutral-background-layer */
+    --card-foreground: 36 36 36;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 255 255 255;
+    --popover-foreground: 36 36 36;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 15 111 189; /* fluent-blue-80 */
+    --primary-foreground: 255 255 255;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 247 247 247; /* fluent-grey-6 */
+    --secondary-foreground: 36 36 36;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 240 240 240; /* fluent-grey-10 */
+    --muted-foreground: 97 97 97; /* fluent-grey-36 */
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 235 243 252; /* fluent-blue-160 */
+    --accent-foreground: 36 36 36;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 196 43 28;
+    --destructive-foreground: 255 255 255;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 224 224 224; /* fluent-grey-16 */
+    --input: 235 235 235; /* fluent-grey-12 */
+    --ring: 15 111 189; /* fluent-blue-80 */
 
-    --radius: 0.5rem;
+    --radius: 4px; /* fluent-md */
 
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 247 247 247; /* fluent-grey-6 */
+    --sidebar-foreground: 36 36 36;
+    --sidebar-primary: 15 111 189;
+    --sidebar-primary-foreground: 255 255 255;
+    --sidebar-accent: 240 240 240;
+    --sidebar-accent-foreground: 36 36 36;
+    --sidebar-border: 224 224 224;
+    --sidebar-ring: 15 111 189;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    /* Fluent 2 Dark Theme Colors */
+    --background: 26 26 26; /* fluent-grey-72 */
+    --foreground: 250 250 250; /* fluent-grey-4 */
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 31 31 31; /* fluent-grey-70 */
+    --card-foreground: 250 250 250;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 31 31 31;
+    --popover-foreground: 250 250 250;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 71 158 245; /* fluent-blue-100 */
+    --primary-foreground: 26 26 26;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 66 66 66; /* fluent-grey-66 */
+    --secondary-foreground: 250 250 250;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 46 46 46; /* fluent-grey-56 */
+    --muted-foreground: 173 173 173; /* fluent-grey-30 */
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 59 59 59; /* fluent-grey-60 */
+    --accent-foreground: 250 250 250;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 255 99 71;
+    --destructive-foreground: 26 26 26;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --border: 66 66 66; /* fluent-grey-66 */
+    --input: 46 46 46; /* fluent-grey-56 */
+    --ring: 71 158 245; /* fluent-blue-100 */
+
+    --sidebar-background: 31 31 31;
+    --sidebar-foreground: 250 250 250;
+    --sidebar-primary: 71 158 245;
+    --sidebar-primary-foreground: 26 26 26;
+    --sidebar-accent: 46 46 46;
+    --sidebar-accent-foreground: 250 250 250;
+    --sidebar-border: 66 66 66;
+    --sidebar-ring: 71 158 245;
   }
 }
 
@@ -90,34 +93,107 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-fluent;
+  }
+
+  /* Fluent 2 Typography Classes */
+  h1 {
+    @apply text-fluent-large-title text-foreground;
+  }
+
+  h2 {
+    @apply text-fluent-title text-foreground;
+  }
+
+  h3 {
+    @apply text-fluent-subtitle text-foreground;
+  }
+
+  .fluent-body {
+    @apply text-fluent-body text-foreground;
+  }
+
+  .fluent-body-strong {
+    @apply text-fluent-body-strong text-foreground;
+  }
+
+  .fluent-caption {
+    @apply text-fluent-caption text-muted-foreground;
   }
 }
 
-@layer utilities {
-  /* Survey Pulse specific styles */
+@layer components {
+  /* Fluent 2 Button Styles */
+  .fluent-button {
+    @apply inline-flex items-center justify-center rounded-fluent-md px-fluent-xl py-fluent-l text-fluent-body-strong transition-all duration-200 ease-out;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+    @apply disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  .fluent-button-primary {
+    @apply fluent-button bg-primary text-primary-foreground hover:bg-primary/90 active:bg-primary/80;
+    @apply shadow-fluent-2 hover:shadow-fluent-4;
+  }
+
+  .fluent-button-secondary {
+    @apply fluent-button bg-secondary text-secondary-foreground hover:bg-secondary/80 active:bg-secondary/60;
+    @apply border border-border shadow-fluent-2 hover:shadow-fluent-4;
+  }
+
+  .fluent-button-subtle {
+    @apply fluent-button bg-transparent text-foreground hover:bg-accent active:bg-accent/80;
+  }
+
+  /* Fluent 2 Card Styles */
+  .fluent-card {
+    @apply rounded-fluent-lg bg-card text-card-foreground shadow-fluent-2 border border-border;
+    @apply transition-all duration-200 ease-out hover:shadow-fluent-4;
+  }
+
+  /* Fluent 2 Input Styles */
+  .fluent-input {
+    @apply flex h-10 w-full rounded-fluent-md border border-input bg-background px-fluent-l py-fluent-m text-fluent-body;
+    @apply ring-offset-background file:border-0 file:bg-transparent file:text-fluent-caption file:font-medium;
+    @apply placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+    @apply disabled:cursor-not-allowed disabled:opacity-50;
+    @apply transition-all duration-200 ease-out;
+  }
+
+  /* Fluent 2 Navigation Styles */
+  .fluent-nav-item {
+    @apply flex items-center gap-fluent-l px-fluent-l py-fluent-m rounded-fluent-md text-fluent-body;
+    @apply hover:bg-accent hover:text-accent-foreground transition-colors duration-200 ease-out;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+  }
+
+  .fluent-nav-item-active {
+    @apply fluent-nav-item bg-primary text-primary-foreground;
+    @apply hover:bg-primary/90;
+  }
+
+  /* Survey specific styles adapted to Fluent 2 */
   .survey-card {
-    @apply bg-white rounded-lg shadow-sm border border-gray-100 p-6;
+    @apply fluent-card p-fluent-xxxl;
   }
   
   .survey-form-label {
-    @apply block text-sm font-medium text-survey-darkText mb-1;
+    @apply block text-fluent-body-strong text-foreground mb-fluent-s;
   }
   
   .survey-input {
-    @apply w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-survey-primary focus:border-transparent;
+    @apply fluent-input;
   }
   
   .survey-btn-primary {
-    @apply bg-survey-primary text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
+    @apply fluent-button-primary;
   }
   
   .survey-btn-secondary {
-    @apply bg-white text-survey-darkText border border-gray-300 px-4 py-2 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2;
+    @apply fluent-button-secondary;
   }
   
   .survey-progress-badge {
-    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+    @apply inline-flex items-center px-fluent-l py-fluent-s rounded-fluent-xl text-fluent-caption font-medium;
   }
   
   .truncate-multiline {
@@ -126,4 +202,28 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+}
+
+@layer utilities {
+  /* Fluent 2 Spacing Utilities */
+  .gap-fluent-xs { gap: 2px; }
+  .gap-fluent-s { gap: 4px; }
+  .gap-fluent-m { gap: 8px; }
+  .gap-fluent-l { gap: 12px; }
+  .gap-fluent-xl { gap: 16px; }
+  .gap-fluent-xxl { gap: 20px; }
+  .gap-fluent-xxxl { gap: 24px; }
+
+  /* Fluent 2 Border Radius Utilities */
+  .rounded-fluent-sm { border-radius: 2px; }
+  .rounded-fluent-md { border-radius: 4px; }
+  .rounded-fluent-lg { border-radius: 8px; }
+  .rounded-fluent-xl { border-radius: 12px; }
+
+  /* Fluent 2 Shadow Utilities */
+  .shadow-fluent-2 { box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.14), 0px 0px 2px rgba(0, 0, 0, 0.12); }
+  .shadow-fluent-4 { box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.14), 0px 0px 2px rgba(0, 0, 0, 0.12); }
+  .shadow-fluent-8 { box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.14), 0px 0px 2px rgba(0, 0, 0, 0.12); }
+  .shadow-fluent-16 { box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.14), 0px 0px 2px rgba(0, 0, 0, 0.12); }
+  .shadow-fluent-64 { box-shadow: 0px 32px 64px rgba(0, 0, 0, 0.24), 0px 0px 8px rgba(0, 0, 0, 0.20); }
 }
